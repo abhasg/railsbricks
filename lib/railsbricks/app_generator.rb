@@ -150,21 +150,33 @@ class AppGenerator
   def config_db
     new_line(2)
     wputs "----> Configuring database ...", :info
-    
-    if @options[:development_db] == "postgresql"
-      FileUtils.cp_r(@rbricks_dir + "/assets/database/postgresql.yml", @app_dir + "/config/database.yml")
-      FileHelpers.replace_string(/BRICK_DB_SERVER/, @options[:db_config][:server], @app_dir + "/config/database.yml")
-      FileHelpers.replace_string(/BRICK_DB_PORT/, @options[:db_config][:port].to_s, @app_dir + "/config/database.yml")
-      FileHelpers.replace_string(/BRICK_DB_NAME/, @options[:db_config][:name], @app_dir + "/config/database.yml")
-      FileHelpers.replace_string(/BRICK_DB_USERNAME/, @options[:db_config][:username], @app_dir + "/config/database.yml")
-      if @options[:db_config][:password].to_s == ''
-        FileHelpers.replace_string(/BRICK_DB_PASSWORD/, '', @app_dir + "/config/database.yml")
+
+    case @options[:development_db]
+      when "postgresql", "mysql2"
+
+        if @options[:development_db] == "postgresql"
+          # copy PostgreSQL template
+          FileUtils.cp_r(@rbricks_dir + "/assets/database/postgresql.yml", @app_dir + "/config/database.yml")
+        else
+          # copy MySQL template
+          FileUtils.cp_r(@rbricks_dir + "/assets/database/mysql.yml", @app_dir + "/config/database.yml")
+        end
+
+        FileHelpers.replace_string(/BRICK_DB_SERVER/, @options[:db_config][:server], @app_dir + "/config/database.yml")
+        FileHelpers.replace_string(/BRICK_DB_PORT/, @options[:db_config][:port].to_s, @app_dir + "/config/database.yml")
+        FileHelpers.replace_string(/BRICK_DB_NAME/, @options[:db_config][:name], @app_dir + "/config/database.yml")
+        FileHelpers.replace_string(/BRICK_DB_USERNAME/, @options[:db_config][:username], @app_dir + "/config/database.yml")
+
+        if @options[:db_config][:password].to_s == ''
+          FileHelpers.replace_string(/BRICK_DB_PASSWORD/, '', @app_dir + "/config/database.yml")
+        else
+          FileHelpers.replace_string(/BRICK_DB_PASSWORD/, "password: #{@options[:db_config][:password]}", @app_dir + "/config/database.yml")
+        end
+
       else
-        FileHelpers.replace_string(/BRICK_DB_PASSWORD/, "password: #{@options[:db_config][:password]}", @app_dir + "/config/database.yml")
-      end
-      
-    else
-      FileUtils.cp_r(@rbricks_dir + "/assets/database/sqlite3.yml", @app_dir + "/config/database.yml")
+        # copy Sqlite3 template
+        FileUtils.cp_r(@rbricks_dir + "/assets/database/sqlite3.yml", @app_dir + "/config/database.yml")
+
     end
     
     new_line

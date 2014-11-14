@@ -1,0 +1,13 @@
+# MySQL
+#   Ensure the MySQL2 gem is defined in your Gemfile
+#   gem 'mysql2', '0.3.*'
+development: 
+  adapter: mysql2
+  encoding: utf8 
+  database: BRICK_DB_NAME 
+  username: BRICK_DB_USERNAME
+  host: BRICK_DB_SERVER
+  pool: 5
+  port: BRICK_DB_PORT
+  BRICK_DB_PASSWORD
+  
