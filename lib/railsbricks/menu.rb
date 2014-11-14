@@ -79,7 +79,30 @@ class Menu
         @options[:ruby_version] = "2.1.5"
     end
     new_line(2)
-    
+
+    # update rails? (now optional)
+    if hints
+      wputs "You can choose to update or not the Rails version on your system. If you already have a stable, updated Rails environment in place you may not want to change it, whereas in a new installation/application this will be a nice option to start with updated tools.", :help
+    end
+    new_line
+    wputs "- Do you want to update rails to the latest available stable version within the RailsBricks install process?"
+    wputs "1. Yes (default)", :info
+    wputs "2. No", :info
+    @options[:update_rails] = (answer() == "1")
+    new_line(2)
+
+
+    # update rake/bundle? (now optional)
+    if hints
+      wputs "You can choose also to update or not the Rake and Bundle tools. As before, should you already have a stable, updated Rails environment you may not want to replace it, while on a new install this is an useful option to do to make sure that you have the required tools.", :help
+    end
+    new_line
+    wputs "- Do you want to update \"rake\" and \"bundle\" tools to the latest available stable version within the install process?"
+    wputs "1. Yes (default)", :info
+    wputs "2. No", :info
+    @options[:update_rake_and_bundle] = (answer() == "1")
+    new_line(2)
+
     # gem command
     if hints
       wputs "On some systems, you can't install gems by issuing a simple 'gem install name_of_gem' command but need to prefix it with 'sudo' and issue 'sudo gem install name_of_gem'. If this is the case, you most likely will need to input your password at some point.", :help

@@ -111,13 +111,17 @@ class AppGenerator
   
   def update_essential_gems
     new_line
-    wputs "----> Updating Rake & Bundler ... ", :info
-    system "#{@options[:gem_command]} install rake --no-rdoc --no-ri"
-    system "#{@options[:gem_command]} update rake"
-    system "#{@options[:gem_command]} install bundler --no-rdoc --no-ri"
-    system "#{@options[:gem_command]} update bundler"
-    new_line
-    wputs "----> Rake & Bundler updated to their latest versions.", :info
+    if @options[:update_rake_and_bundle]
+      wputs "----> Updating Rake & Bundler ... ", :info
+      system "#{@options[:gem_command]} install rake --no-rdoc --no-ri"
+      system "#{@options[:gem_command]} update rake"
+      system "#{@options[:gem_command]} install bundler --no-rdoc --no-ri"
+      system "#{@options[:gem_command]} update bundler"
+      new_line
+      wputs "----> Rake & Bundler updated to their latest versions.", :info
+    else
+      wputs "----> Rake & Bundler will not be modified, as chosen before in the configuration options... ", :info
+    end
 
   rescue
     Errors.display_error("Required gems (rake & bundler) couldn't be updated properly. Stopping app creation.", true)
@@ -128,14 +132,18 @@ class AppGenerator
   
   def install_rails
     new_line(2)
-    wputs "----> Installing Rails #{@options[:rails_version]} ...", :info
-    system "#{@options[:gem_command]} install rails -v #{@options[:rails_version]} --no-rdoc --no-ri"
-    new_line
-    wputs "----> Rails #{@options[:rails_version]} installed.", :info
+    if @options[:update_rails]
+      wputs "----> Installing Rails #{@options[:rails_version]} ...", :info
+      system "#{@options[:gem_command]} install rails -v #{@options[:rails_version]} --no-rdoc --no-ri"
+      new_line
+      wputs "----> Rails #{@options[:rails_version]} installed.", :info
+    else
+      wputs "----> Rails installation will not be modified, as chosen before in the configuration options... ", :info
+    end
 
-  rescue
-    Errors.display_error("Something went wrong and Rails #{@options[:rails_version]} couldn't be installed. Stopping app creation.", true)
-    abort
+    rescue
+      Errors.display_error("Something went wrong and Rails #{@options[:rails_version]} couldn't be installed. Stopping app creation.", true)
+      abort
 
   end
   
