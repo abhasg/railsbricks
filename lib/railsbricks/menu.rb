@@ -112,14 +112,28 @@ class Menu
     wputs "- Which database engine do you want to use for development?" 
     wputs "1. SQLite 3 (default)", :info
     wputs "2. PostgreSQL", :info
-    @options[:development_db] = answer() == "2" ? "postgresql" : "sqlite"
+    wputs "3. MySQL (NEW) (uses mysql2 gem)", :info
+
+    case answer()
+      when "2"
+        @options[:development_db] =  "postgresql"
+      when "3"
+        @options[:development_db] =  "mysql2"
+      else
+        @options[:development_db] =  "sqlite"
+    end
     @options[:db_config] = {}
     new_line(2)
     
-    # postgresql config
-    if @options[:development_db] == "postgresql"
+    # database connection config
+    if [ "postgresql", "mysql2" ].has @options[:development_db]
+
+      # PostgreSQL / MySQL (mysql2) configuration
+
+      @db_choice_title = @options[:development_db].capitalize.sub(/sql/, 'SQL')
+
       if hints
-        wputs "Right, you decided to go with PostgreSQL. Note that I will only create a development config. You'll have to manually edit #{@options[:app_name]}/config/database.yml for test and production. I will create the database so make sure it doesn't exist yet.", :help
+        wputs "Right, you decided to go with #{@db_choice_title}. Note that I will only create a development config. You'll have to manually edit #{@options[:app_name]}/config/database.yml for test and production. I will create the database so make sure it doesn't exist yet.", :help
         new_line
       end
     
@@ -158,13 +172,17 @@ class Menu
       wputs "(default: none)"
       @options[:db_config][:password] = answer("Database user password:")
       new_line(2)
-      
+
     else
+
+      # SQLite 3
+
       @options[:db_config][:server] = nil
       @options[:db_config][:port] = nil
       @options[:db_config][:name] = nil
       @options[:db_config][:username] = nil
       @options[:db_config][:password] = nil
+
     end
     
     # git local
