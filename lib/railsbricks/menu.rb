@@ -127,7 +127,7 @@ class Menu
     
     # development database
     if hints
-      wputs "By default, Rails uses SQLite 3 to store the development database. I can change that to PostgreSQL but you have to make sure that a PostgreSQL server is installed and currently running. If it doesn't, the app creation will fail as I won't be able to create the development database.", :help
+      wputs "By default, Rails uses SQLite 3 to store the development database. I can change that to PostgreSQL or MySQL but you have to make sure that a PostgreSQL server is installed and currently running. If it doesn't, the app creation will fail as I won't be able to create the development database.", :help
     end
     new_line
     wputs "If you are on OS X, I struggle with the Postgres.app as the location of pg_config keeps changing between versions. If you want to use PostgreSQL, you'll have to use a full install which you can get through Homebrew by running 'brew install postgresql'.", :error
@@ -149,7 +149,7 @@ class Menu
     new_line(2)
     
     # database connection config
-    if [ "postgresql", "mysql2" ].has @options[:development_db]
+    if [ "postgresql", "mysql2" ].include? @options[:development_db]
 
       # PostgreSQL / MySQL (mysql2) configuration
 
@@ -167,12 +167,19 @@ class Menu
       choice = answer("Hostname:") 
       @options[:db_config][:server] = choice == "" ?  "localhost" : choice
       new_line(2)
-      
+
+      # set a default port based on the db engine
+      if @options[:development_db] == "postgresql"
+        @default_db_port = 5432
+      else
+        @default_db_port = 3306
+      end
+
       # port
       wputs "- What is the database port number?"
-      wputs "(default: 5432)"
+      wputs "(default: #{@default_db_port})"
       choice = answer("Port:")
-      @options[:db_config][:port] = choice == "" ? 5432 : choice.to_i
+      @options[:db_config][:port] = choice == "" ? @default_db_port : choice.to_i
       new_line(2)
       
       # name
