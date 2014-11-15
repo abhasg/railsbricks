@@ -21,6 +21,7 @@ module GemfileBuilder
   SQLITE3 = "1.3.10"
   TURBOLINKS = "2.5.2"
   UGLIFIER = "2.5.3"
+  MYSQL2 = "0.3.15"
   
   
   def self.build_gemfile(app_dir, options)
@@ -37,11 +38,19 @@ module GemfileBuilder
     FileHelpers.replace_string(/BRICK_RUBY_VERSION/, options[:ruby_version], app_dir + "/Gemfile")
     
     # Database
-    if options[:development_db] == "sqlite"
-      add_gem = "# SQLite 3\ngroup :development, :test do\n  gem 'sqlite3', 'BRICK_SQLITE3_VERSION'\nend"
-    else
-      add_gem = "# PostgreSQL\ngem 'pg'"
+    case options[:development_db]
+
+      when "postgresql"
+        add_gem = "# PostgreSQL\ngem 'pg'"
+
+      when "mysql2"
+        add_gem = "# MySQL (mysql2)\ngroup :development, :test do\n  gem 'mysql2', 'BRICK_MYSQL2_VERSION'\nend"
+
+      else
+        # SQLite 3
+        add_gem = "# SQLite 3\ngroup :development, :test do\n  gem 'sqlite3', 'BRICK_SQLITE3_VERSION'\nend"
     end
+
     FileHelpers.add_to_file(app_dir + "/Gemfile", add_gem)
     
     # Devise
@@ -88,6 +97,7 @@ module GemfileBuilder
     FileHelpers.replace_string(/BRICK_REDCARPET_VERSION/, REDCARPET, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_SASS_RAILS_VERSION/, SASS_RAILS, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_SQLITE3_VERSION/, SQLITE3, app_dir + "/Gemfile")
+    FileHelpers.replace_string(/BRICK_MYSQL2_VERSION/, MYSQL2, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_TURBOLINKS_VERSION/, TURBOLINKS, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_UGLIFIER_VERSION/, UGLIFIER, app_dir + "/Gemfile")
     

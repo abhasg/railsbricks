@@ -30,3 +30,7 @@ gem 'bootstrap-sass', 'BRICK_BOOTSTRAP_SASS_VERSION'
 group :development, :test do
   gem 'figaro', 'BRICK_FIGARO_VERSION'
 end
+
+# required by Rails 4 & RailsBricks 3 on Windows platform
+gem 'tzinfo-data',  :platform => [ :mswin, :mingw, :x64_mingw ]
+
