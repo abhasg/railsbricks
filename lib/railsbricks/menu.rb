@@ -214,7 +214,73 @@ class Menu
       @options[:db_config][:password] = nil
 
     end
-    
+
+    # ask special parameters for MySQL2 native gem so we can build it from sources, assuming we have DevKit
+    # properly installed on the system already!
+
+    if @options[:development_db] == "mysql2"
+
+      require 'rbconfig'
+      is_windows = !(RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/).nil?
+
+      if (is_windows)
+
+        if hints
+          wputs "Ok, it seems that you want to go #{@db_choice_title}, you brave boy. This has special requirements you need to know.", :help
+          new_line
+          wputs "1. you must have DevKit properly installed and running already on your system so you can compile and install native gems on Windows (you can check http://rubyonwindowsguides.github.io/book/ch02-04.html for details).", :help
+          new_line
+          wputs "2. you must download the MySQL connector for C from the Oracle/MySQL website, unpack it on your system, and let this installer know the path to the unpacked files so it can build the native code dependencies. You have the details here: ", :help
+          new_line
+          wputs "\t * details: http://stackoverflow.com/questions/13604362/installing-mysql-2-9-0-gem-on-windows-fails-due-to-lack-of-libmysql", :help
+          wputs "\t * download: http://dev.mysql.com/downloads/connector/c/  (you can download the appropiate version for your system from here, I recommend using the .zip package)", :help
+          new_line
+        end
+
+        connector_path_ok = false
+
+        begin
+
+          wputs "- What is the base folder path to the MySQL Connector for C files on your system (ie.: C:/mysql-connector-c-noinstall-6.0.2-win32)?"
+          wputs "tip: make sure the path is correct, and please use slash, NOT backslash, as the path separator", :help
+          new_line
+          wputs "(default: none)"
+          connector_path = answer("MySQL Connector for C files location:").strip.gsub("\\", "/")
+          new_line(2)
+
+          if (connector_path.length > 0) && (File.directory?(connector_path))
+
+            dll_file_path = String.new(connector_path) << (connector_path.end_with?('/') ? "" : "/") << "lib/libmysql.dll"
+
+            if File.file?(dll_file_path)
+              wputs "MySQL Connector for C path seems OK and it has been accepted", :info
+            else
+              wputs "WARNING: path does exists, but it could not be verified (#{dll_file_path} not found), it should not happen...", :error
+              new_line
+              are_you_sure_path = answer("are you sure you want to continue with this path (y/n) ?")
+              if (are_you_sure_path != "Y" && are_you_sure_path != "y")
+                new_line(2)
+                next  # not confirmed, ask again
+              end
+            end
+            new_line
+
+            # we'll pass this parameter to the bundle command when building the gems
+            @options[:db_config][:mysql_connector_c_path] = connector_path
+            connector_path_ok = true
+
+          else
+            wputs "ERROR in the specified path for MySQL Connector for C or path does not exists. Please review the specified path: [" + connector_path + "]", :error
+            new_line
+          end
+
+        end while !connector_path_ok
+
+      end
+
+    end
+
+
     # git local
     if hints
       wputs "I can create a local and a remote Git repository for you. If you choose to do so, I will also create a specific .gitignore file to make sure your secrets are not distributed with your code.", :help

@@ -1,4 +1,5 @@
 require "fileutils"
+require "rbconfig"
 require_relative "ui_helpers"
 require_relative "version"
 require_relative "string_helpers"
@@ -307,9 +308,27 @@ class AppGenerator
   
   
   def bundle_install
+
     new_line(2)
     wputs "----> Installing gems into 'vendor/bundle/' ...", :info
     Dir.chdir "#{@app_dir}" do
+
+      # Windows platform and mysql2 native gem selected? we need to pre-execute this to have bundle accept
+      # the extra params for the gem build process. We configure them locally as per-application setting
+      # to avoid disruption of other applications
+
+      if @options[:development_db] == "mysql2" && !(RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/).nil?
+
+        new_line
+        wputs "* Detected MySQL2 gem on Windows installation."
+        wputs " >> (Running bundle preconfiguration to specify path to the MySQL Connector for C files [" + @options[:db_config][:mysql_connector_c_path] + "])", :info
+
+        # this stores in .bundle/config the required extra settings for bundle to success building the gem, if everything else is ok
+        system "bundle config --local build.mysql2 --with-mysql-dir=\"" + @options[:db_config][:mysql_connector_c_path] + "\""
+
+      end
+
+      # then run the normal bundle install command
       system "bundle install --without production --path vendor/bundle"
     end
     new_line

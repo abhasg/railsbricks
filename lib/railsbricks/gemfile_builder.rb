@@ -21,7 +21,7 @@ module GemfileBuilder
   SQLITE3 = "1.3.10"
   TURBOLINKS = "2.5.2"
   UGLIFIER = "2.5.3"
-  MYSQL2 = "0.3.15"
+  MYSQL2 = "0.3.17"
   
   
   def self.build_gemfile(app_dir, options)
