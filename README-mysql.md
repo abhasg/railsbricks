@@ -1,16 +1,16 @@
-# RailsBricks 3.1 with MySQL support
+# RailsBricks 3.0.3-athalas with MySQL support
 # Getting Started guide
 
 Guide author: David Camarena
 Original date: Nov 23, 2014
-Revision: 1
+Revision: 2
 
 
 RailsBricks is an excellent Rails-based GUI to use for Ruby projects. It has neat interface, it is fast, easy to deploy, and it has an assistant and some command-line tools aimed at letting you develop and deploy rails sites faster. It has been created by Nico Schuele.
 
 I've recently added MySQL support to RailsBricks and wrote that guide aimed at helping those users wanting to configure and use MySQL on RailsBricks.
 
-You will require RailsBricks 3.1 or later in order to have MySQL support. Also, this guide will help you to complete all the needed requirements. 
+You will require RailsBricks 3.0.3-athalas or later in order to have MySQL support. Also, this guide will help you to complete all the needed requirements. 
 
 
 ## Requirements
@@ -21,13 +21,13 @@ You will require RailsBricks 3.1 or later in order to have MySQL support. Also, 
 	* DevKit properly installed on Windows
 	* Standard C/C++ development tools (gcc, make, etc.) on Linux
 * Git
-* RailsBricks 3.1 or later (with the new MySQL support)
+* RailsBricks 3.0.3-athalas or later (with the new MySQL support)
 
 
 ## Objectives
 
 * Meet the requirements to be able to install the native gem "mysql2" in the system for MySQL support
-* Install and deploy RailsBricks 3.1+
+* Install and deploy RailsBricks 3 with MySQL
 
 
 ### Required Steps
@@ -162,7 +162,7 @@ Now you can attempt to compile and install the gem:
 
 	Please Note: 
 
-	a) In order to use the new MySQL support on RailsBricks you will need at least RailsBricks version 3.1 or later.
+	a) In order to use the new MySQL support on RailsBricks you will need at least RailsBricks version 3.0.3-athalas or later.
 	
 	b) Mysql2 gem is a requirement ONLY if you plan to use MySQL option for RailsBricks. You don't require it if you just want 
 	   to use SQLite or PostgreSQL.
