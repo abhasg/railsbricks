@@ -2,11 +2,16 @@
 
 _Create **Rails** apps. **Faster**._
 
+
+## Looking for sponsors!
+
+**As I'm planning the next major version, RailsBricks 4, I'm looking for sponsors. [Read more about it here...](http://railsbricks.net/news/the-next-version-of-railsbricks-needs-sponsors)**
+
 ---
 - Title: RailsBricks
-- Version: 3.0.3
+- Version: 3.2.0
 - Author: Nico Schuele (www.nicoschuele.com)
-- Contact: nico@railsbricks.net
+- Contact: [contact page](http://railsbricks.net/contact)
 - Homepage: http://www.railsbricks.net
 - Github: https://github.com/nicoschuele/railsbricks
 - Twitter: @railsbricks
@@ -29,7 +34,7 @@ _Create **Rails** apps. **Faster**._
 
 In order to use RailsBricks, you need the following:
 
-* A nix-based OS. That can be any flavour of Linux or OS X 
+* A nix-based OS. That can be any flavour of Linux or OS X
 * Ruby (version 2.0+)
 * Some knowledge of Rails (!)
 
@@ -39,7 +44,7 @@ In order to use RailsBricks, you need the following:
 
 ## Ruby support
 
-RailsBricks generates Rails apps with support for the current major Ruby release (currently, 2.0.0) + the current point release and the previous one, for example 2.1.5 & 2.1.4. If you need to use another version of Ruby, you will have to manually edit the Gemfile after the app gets created and update the following line with your chosen version number:
+RailsBricks generates Rails apps with support for the current major Ruby release (currently, 2.0.0) + the current point release and the previous one, for example 2.1.4 & 2.2.0. If you need to use another version of Ruby, you will have to manually edit the Gemfile after the app gets created and update the following line with your chosen version number:
 
 `ruby '2.1.5'`
 
@@ -54,7 +59,7 @@ Like any other gem, you simply issue `gem install railsbricks`
 To create a new app, just type `rbricks --new` and follow the wizard.
 
 You can read the documentation, see a video and go through the *Get Started* tutorial at [railsbricks.net](http://www.railsbricks.net)
-    
+
 ## Contribute
 
 You like RailsBricks and want to contribute to its development? Cool! You can do it in 2 ways:
@@ -62,11 +67,11 @@ You like RailsBricks and want to contribute to its development? Cool! You can do
 * Fork the code and implement an awesome feature
 * Found a bug or a quirk? Fix it!
 
-...then, submit a pull request.
+**Important**: before working on a new feature, [contact me](http://railsbricks.net/contact) or [open an issue](https://github.com/nicoschuele/railsbricks/issues) on Github explaining what you'd like to implement. I'm trying to keep the maintenance of RailsBricks as easy and fast as possible so before accepting a feature or a PR, we need to make sure it will be maintained properly and within an appropriate timeframe.
 
 ## Questions, Feedback
 
-If you have any question or feedback, drop me a line at nico@railsbricks.net or tweet at @railsbricks
+If you have any question or feedback, [drop me a line](http://railsbricks.net/contact) or tweet at @railsbricks
 
 ## Acknowledgements
 
@@ -76,9 +81,10 @@ If you have any question or feedback, drop me a line at nico@railsbricks.net or 
 * [David Hsu](https://github.com/dvdhsu), for adding a new Brick: Devise authentication using only an email address
 * the authors of the many gems used by RailsBricks
 * the [Geneva.rb](http://www.meetup.com/genevarb/) Meetup Group for the beer!
-* David Camarena for fiddling with RailsBricks long enough to have it run on Windows
+* David Camarena for producing a [fork](https://github.com/athalas/railsbricks) with support for MySQL
+* [Felix Wolfsteller](https://github.com/fwolfst) for doing a bit of cleanup
 * everyone who emailed me, gave feedback, opened an issue on Github, submitted a pull request, tweeted, etc. I truly love the Rails community.
 
 ## License
 
-Released under GNU GPL-3. Copyright (c) 2014 - Nico Schuele. See LICENSE.txt for further details.
+Released under GNU GPL-3. Copyright (c) 2014-2015 Nico Schuele. See LICENSE.txt for further details.

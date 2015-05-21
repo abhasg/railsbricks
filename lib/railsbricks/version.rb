@@ -1,14 +1,13 @@
 module Version
 
   MAJOR = 3
-  MINOR = 0
-  PATCH = 3
-  PRE = 1
-  BUILD_INFO = "(unofficial build by athalas)"
+  MINOR = 2
+  PATCH = 0
+  PRE = nil
 
-  YEAR = "2014"
-  MONTH = "11"
-  DAY = "23"
+  YEAR = "2015"
+  MONTH = "04"
+  DAY = "28"
 
   def self.to_s
     [MAJOR, MINOR, PATCH, PRE].compact.join(".")
@@ -16,10 +15,6 @@ module Version
 
   def self.current
     to_s
-  end
-
-  def self.build_info
-    BUILD_INFO
   end
 
   def self.current_date

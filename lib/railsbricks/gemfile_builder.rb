@@ -6,21 +6,25 @@ require_relative "file_helpers"
 require_relative "config_values"
 
 module GemfileBuilder
-  BCRYPT = "3.1.9"
-  BOOTSTRAP_SASS = "3.3.1.0"
+  ANNOTATE = "2.6.8"
+  BCRYPT = "3.1.10"
+  BOOTSTRAP_SASS = "3.3.4.1"
+  BYEBUG = "4.0.5"
   COFFEE_RAILS = "4.1.0"
   DEVISE = "3.4.1"
-  FIGARO = "1.0.0"
-  FONT_AWESOME_SASS = "4.2.2"
-  FRIENDLY_ID = "5.0.4"
-  JBUILDER = "2.2.5"
-  JQUERY_RAILS = "3.1.2"
-  KAMINARI = "0.16.1"
-  REDCARPET = "3.2.0"
-  SASS_RAILS = "4.0.4"
+  FIGARO = "1.1.0"
+  FONT_AWESOME_SASS = "4.3.2.1"
+  FRIENDLY_ID = "5.1.0"
+  JBUILDER = "2.2.13"
+  JQUERY_RAILS = "4.0.3"
+  KAMINARI = "0.16.3"
+  REDCARPET = "3.2.3"
+  SASS_RAILS = "5.0.3"
   SQLITE3 = "1.3.10"
-  TURBOLINKS = "2.5.2"
-  UGLIFIER = "2.5.3"
+  SPRING = "1.3.4"
+  TURBOLINKS = "2.5.3"
+  UGLIFIER = "2.7.1"
+  WEB_CONSOLE = "2.1.2"
   MYSQL2 = "0.3.17"
   
   
@@ -81,10 +85,11 @@ module GemfileBuilder
       FileHelpers.add_to_file(app_dir + "/Gemfile", add_gem)
     end
         
-    
     # Set gem versions
+    FileHelpers.replace_string(/BRICK_ANNOTATE_VERSION/, ANNOTATE, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_BCRYPT_VERSION/, BCRYPT, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_BOOTSTRAP_SASS_VERSION/, BOOTSTRAP_SASS, app_dir + "/Gemfile")
+    FileHelpers.replace_string(/BRICK_BYEBUG_VERSION/, BYEBUG, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_COFFEE_RAILS_VERSION/, COFFEE_RAILS, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_DEVISE_VERSION/, DEVISE, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_FIGARO_VERSION/, FIGARO, app_dir + "/Gemfile")
@@ -97,9 +102,11 @@ module GemfileBuilder
     FileHelpers.replace_string(/BRICK_REDCARPET_VERSION/, REDCARPET, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_SASS_RAILS_VERSION/, SASS_RAILS, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_SQLITE3_VERSION/, SQLITE3, app_dir + "/Gemfile")
-    FileHelpers.replace_string(/BRICK_MYSQL2_VERSION/, MYSQL2, app_dir + "/Gemfile")
+    FileHelpers.replace_string(/BRICK_SPRING_VERSION/, SPRING, app_dir + "/Gemfile")
+	FileHelpers.replace_string(/BRICK_MYSQL2_VERSION/, MYSQL2, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_TURBOLINKS_VERSION/, TURBOLINKS, app_dir + "/Gemfile")
     FileHelpers.replace_string(/BRICK_UGLIFIER_VERSION/, UGLIFIER, app_dir + "/Gemfile")
+    FileHelpers.replace_string(/BRICK_WEB_CONSOLE_VERSION/, WEB_CONSOLE, app_dir + "/Gemfile")
     
     new_line
     wputs "----> Gemfile generated.", :info
@@ -114,10 +121,8 @@ module GemfileBuilder
     StringHelpers.wputs(text, highlight)
   end
   
-  
   def self.new_line(lines=1)
     StringHelpers.new_line(lines)
   end
-  
   
 end

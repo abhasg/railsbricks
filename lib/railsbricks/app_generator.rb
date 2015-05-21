@@ -14,13 +14,11 @@ class AppGenerator
   
   attr_accessor :options
 
-  
   def initialize(options)
     @options = options
     @app_dir = Dir.pwd + "/#{@options[:app_name]}"
     @rbricks_dir = File.dirname(__FILE__)
   end
-  
   
   def generate_app
     # Drop creation if necessary
@@ -86,6 +84,9 @@ class AppGenerator
     # save config
     ConfigHelpers.create_config(@app_dir, @options)
     
+    # annotate models and routes
+    annotate
+
     # git
     set_git  
       
@@ -102,9 +103,6 @@ class AppGenerator
     new_line    
     
   end
-  
-  
-  
   
   # Private/shortcut/alias methods
   
@@ -148,13 +146,11 @@ class AppGenerator
 
   end
   
-  
   def create_foundation
     FileUtils::mkdir_p @app_dir
     FileUtils.cp_r(@rbricks_dir + "/foundation/.", @app_dir)
     
   end
-  
   
   def config_db
     new_line(2)
@@ -216,7 +212,6 @@ class AppGenerator
     wputs "----> Environment variables set.", :info
   end
   
-  
   def add_contact_form
     if @options[:contact_form]
       new_line(2)
@@ -241,7 +236,6 @@ class AppGenerator
       
       new_line
       wputs "----> Contact form created.", :info
-      
     else
       # Navbar link
       FileHelpers.replace_string(/BRICK_CONTACT/, '', @app_dir + "/app/views/layouts/_navigation_links.html.erb")
@@ -250,7 +244,6 @@ class AppGenerator
       # Routes
       FileHelpers.replace_string(/BRICK_CONTACT_ROUTES/, '', @app_dir + "/config/routes.rb")
     end
-    
   end
     
   
@@ -266,13 +259,11 @@ class AppGenerator
             
       new_line
       wputs "----> Google Analytics set.", :info
-      
     else
       FileHelpers.replace_string(/BRICK_ANALYTICS/, '', @app_dir + "/app/views/layouts/_footer.html.erb")
       FileHelpers.replace_string(/BRICK_ANALYTICS_SCRIPT/, '', @app_dir + "/app/assets/javascripts/application.js")
     end
   end
-  
   
   def set_production
     new_line(2)
@@ -286,7 +277,6 @@ class AppGenerator
     new_line
     wputs "----> Production settings updated.", :info    
   end
-  
   
   def set_app_name
     new_line(2)
@@ -302,10 +292,10 @@ class AppGenerator
     FileHelpers.replace_string(/BRICK_APP_NAME/, @options[:rails_app_name], @app_dir + "/config/environments/production.rb")
     FileHelpers.replace_string(/BRICK_APP_NAME/, @options[:rails_app_name], @app_dir + "/config/initializers/secret_token.rb")
     FileHelpers.replace_string(/BRICK_APP_NAME/, @options[:rails_app_name], @app_dir + "/config/initializers/session_store.rb")
+    FileHelpers.replace_string(/BRICK_SESSION/, @options[:rails_app_name].downcase, @app_dir + "/config/initializers/session_store.rb")
     new_line
     wputs "----> App name set.", :info
   end
-  
   
   def bundle_install
 
@@ -335,7 +325,17 @@ class AppGenerator
     wputs "----> Gems installed in 'vendor/bundle/'.", :info
   end
   
-  
+  def annotate
+    new_line(2)
+    wputs "----> Annotating models and routes ...", :info
+    Dir.chdir "#{@app_dir}" do
+      system "bundle exec annotate"
+      system "bundle exec annotate --routes"
+    end
+    new_line
+    wputs "----> Models and routes annotated.", :info
+  end
+
   def create_database
     new_line(2)
     wputs "----> Creating database ...", :info
@@ -347,7 +347,6 @@ class AppGenerator
     new_line
     wputs "----> Database created.", :info
   end
-  
   
   def set_git
     # Always copy .gitignore
@@ -370,19 +369,15 @@ class AppGenerator
       new_line
       wputs "----> Git set up.", :info
     end
-    
   end
-  
   
   def wputs(text, highlight = :none)
     StringHelpers.wputs(text, highlight)
   end
   
-  
   def new_line(lines=1)
     StringHelpers.new_line(lines)
   end
-  
   
 end
 

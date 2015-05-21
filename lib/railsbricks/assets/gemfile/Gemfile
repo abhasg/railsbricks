@@ -11,9 +11,6 @@ gem 'turbolinks', 'BRICK_TURBOLINKS_VERSION'
 gem 'jbuilder', 'BRICK_JBUILDER_VERSION'
 gem 'bcrypt', 'BRICK_BCRYPT_VERSION'
 
-# Necessary for Windows OS (won't install on *nix systems)
-gem 'tzinfo-data', platforms: [:mingw, :mswin]
-
 # Kaminari: https://github.com/amatsuda/kaminari
 gem 'kaminari', 'BRICK_KAMINARI_VERSION'
 
@@ -26,11 +23,16 @@ gem 'font-awesome-sass', 'BRICK_FONT_AWESOME_SASS_VERSION'
 # Bootstrap 3: https://github.com/twbs/bootstrap-sass
 gem 'bootstrap-sass', 'BRICK_BOOTSTRAP_SASS_VERSION'
 
-# Figaro: https://github.com/laserlemon/figaro
 group :development, :test do
+  gem 'byebug', 'BRICK_BYEBUG_VERSION'
+  gem 'web-console', 'BRICK_WEB_CONSOLE_VERSION'
+
+# Figaro: https://github.com/laserlemon/figaro
   gem 'figaro', 'BRICK_FIGARO_VERSION'
+
+  # Spring: https://github.com/rails/spring
+  gem 'spring', 'BRICK_SPRING_VERSION'
+
+  # Annotate_Models: https://github.com/ctran/annotate_models
+  gem 'annotate', 'BRICK_ANNOTATE_VERSION'
 end
-
-# required by Rails 4 & RailsBricks 3 on Windows platform
-gem 'tzinfo-data',  :platform => [ :mswin, :mingw, :x64_mingw ]
-

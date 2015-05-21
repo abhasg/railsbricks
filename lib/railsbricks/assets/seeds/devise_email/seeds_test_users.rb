@@ -5,20 +5,16 @@
 u = User.new(
     email: "admin@example.com",
     password: "1234",
-    password_confirmation: "1234",
     admin: true
 )
 u.skip_confirmation!
 u.save!
 
-
-
 # Test user accounts
 (1..50).each do |i|
   u = User.new(
       email: "user#{i}@example.com",
-      password: "1234",
-      password_confirmation: "1234"
+      password: "1234"
   )
   u.skip_confirmation!
   u.save!
@@ -26,5 +22,3 @@ u.save!
   puts "#{i} test users created..." if (i % 5 == 0)
 
 end
-  
-
