@@ -16,14 +16,14 @@ class Menu
     # WELCOME
     @options[:rails_version] = ConfigValues.rails_version    
     new_line
-    wputs '*****************************'
-    wputs "*                           *"
-    wputs "*     RailsBricks #{Version.to_s}     *"
-    wputs '*    www.railsbricks.net    *'
-    wputs "*                           *"
-    wputs "*     using Rails #{@options[:rails_version]}     *"
-    wputs "*                           *"
-    wputs '*****************************'
+    wputs '**********************************************************'
+    wputs "*                                                        *"
+    wputs "*     RailsBricks #{Version.to_s}  #{Version.build_info}   *"
+    wputs '*    www.railsbricks.net                                 *'
+    wputs "*                                                        *"
+    wputs "*     using Rails #{@options[:rails_version]}                                  *"
+    wputs "*                                                        *"
+    wputs '**********************************************************'
     new_line(2)
 
     # WIZARD CONFIG
@@ -32,7 +32,7 @@ class Menu
     wputs "2. Nope, I already know how to use RailsBricks", :info
     hints = answer() == "2" ? false : true
     new_line(2)
-    
+
     # APP NAME
     wputs "1. Your Rails App Name"
     wputs "----------------------"

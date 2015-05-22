@@ -4,6 +4,7 @@ module Version
   MINOR = 2
   PATCH = 0
   PRE = nil
+  CUSTOM_BUILD_INFO = "(unofficial build by athalas)"
 
   YEAR = "2015"
   MONTH = "04"
@@ -15,6 +16,10 @@ module Version
 
   def self.current
     to_s
+  end
+
+  def self.build_info
+    CUSTOM_BUILD_INFO
   end
 
   def self.current_date
